@@ -332,8 +332,8 @@ function inject (bot) {
 
     // Force horizontal velocity to 0 (otherwise inertia can move us too far)
     // Kind of cheaty, but the server will not tell the difference
-    bot.entity.velocity.x = 0
-    bot.entity.velocity.z = 0
+    // bot.entity.velocity.x = 0
+    // bot.entity.velocity.z = 0
 
     const blockX = Math.floor(bot.entity.position.x) + 0.5
     const blockZ = Math.floor(bot.entity.position.z) + 0.5
@@ -627,7 +627,7 @@ function inject (bot) {
 
     // console.log(`Treating as regular goal node: ${nextPoint.x}, ${nextPoint.y}, ${nextPoint.z}`)
 
-    bot.look(Math.atan2(-dx, -dz), 0)
+    bot.look(Math.atan2(-dx, -dz), Math.random() > 0.5 ? -Math.random() * (Math.PI / 16) : Math.random() * (Math.PI / 16))
 
     bot.setControlState('forward', true)
     bot.setControlState('jump', false)
