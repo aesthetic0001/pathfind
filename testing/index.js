@@ -29,7 +29,15 @@ bot.once('inject_allowed', () => {
 
 bot.on('kicked', console.log)
 
-bot.on('spawn', () => {
-  bot.chat('/tp -2.5 70 -70.5')
-  bot.pathfinder.setGoal(new goals.GoalBlock(-183, 74, -84))
+// bot.on('spawn', () => {
+//   bot.chat('/tp -329 91 -56')
+//   bot.pathfinder.setGoal(new goals.GoalBlock(-362, 70, -60))
+// })
+
+bot.on('physicsTick', () => {
+  const target = bot.players['Rnas']
+
+  if (!target) return
+
+  bot.pathfinder.setGoal(new goals.GoalNear(target.entity.position.x, target.entity.position.y, target.entity.position.z, 3))
 })
