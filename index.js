@@ -604,6 +604,8 @@ function inject (bot) {
       dz = nextPoint.z - p.z
     }
 
+    console.log(`Treating as regular goal node: ${nextPoint.x}, ${nextPoint.y}, ${nextPoint.z}`)
+
     bot.look(Math.atan2(-dx, -dz), 0)
     bot.setControlState('forward', true)
     bot.setControlState('jump', false)
