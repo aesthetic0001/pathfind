@@ -607,6 +607,7 @@ function inject (bot) {
     // console.log(`Treating as regular goal node: ${nextPoint.x}, ${nextPoint.y}, ${nextPoint.z}`)
 
     bot.look(Math.atan2(-dx, -dz), 0)
+
     bot.setControlState('forward', true)
     bot.setControlState('jump', false)
 
@@ -626,6 +627,7 @@ function inject (bot) {
       bot.setControlState('jump', true)
       bot.setControlState('sprint', false)
     } else {
+      console.log("STOPPING???")
       bot.setControlState('forward', false)
       bot.setControlState('sprint', false)
     }
