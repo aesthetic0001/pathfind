@@ -392,7 +392,6 @@ function inject (bot) {
   function stop () {
     stopPathing = false
     stateGoal = null
-    previousNode = null
     path = []
     bot.emit('path_stop')
     fullStop()
@@ -418,8 +417,6 @@ function inject (bot) {
       }
     }
   })
-
-  let previousNode = null
 
   let lastOnGroundPos = null
 
@@ -603,7 +600,6 @@ function inject (bot) {
         stop()
         return
       }
-      previousNode = nextPoint
       path.shift()
       if (path.length === 0) { // done
         // If the block the bot is standing on is not a full block only checking for the floored position can fail as
