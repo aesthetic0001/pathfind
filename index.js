@@ -645,7 +645,6 @@ function inject (bot) {
       bot.setControlState('jump', true)
       bot.setControlState('sprint', false)
     } else {
-      console.log('STOPPING???')
       bot.setControlState('forward', false)
       bot.setControlState('sprint', false)
     }
