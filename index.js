@@ -347,6 +347,7 @@ function inject (bot) {
   function moveToEdge (refBlock, edge) {
     // If allowed turn instantly should maybe be a bot option
     const allowInstantTurn = false
+
     function getViewVector (pitch, yaw) {
       const csPitch = Math.cos(pitch)
       const snPitch = Math.sin(pitch)
@@ -354,6 +355,7 @@ function inject (bot) {
       const snYaw = Math.sin(yaw)
       return new Vec3(-snYaw * csPitch, snPitch, -csYaw * csPitch)
     }
+
     // Target viewing direction while approaching edge
     // The Bot approaches the edge while looking in the opposite direction from where it needs to go
     // The target Pitch angle is roughly the angle the bot has to look down for when it is in the position
@@ -390,6 +392,7 @@ function inject (bot) {
   function stop () {
     stopPathing = false
     stateGoal = null
+    previousNode = null
     path = []
     bot.emit('path_stop')
     fullStop()
@@ -408,15 +411,20 @@ function inject (bot) {
       const cx = chunk.x >> 4
       const cz = chunk.z >> 4
       if (astarContext.visitedChunks.has(`${cx - 1},${cz}`) ||
-          astarContext.visitedChunks.has(`${cx},${cz - 1}`) ||
-          astarContext.visitedChunks.has(`${cx + 1},${cz}`) ||
-          astarContext.visitedChunks.has(`${cx},${cz + 1}`)) {
+        astarContext.visitedChunks.has(`${cx},${cz - 1}`) ||
+        astarContext.visitedChunks.has(`${cx + 1},${cz}`) ||
+        astarContext.visitedChunks.has(`${cx},${cz + 1}`)) {
         resetPath('chunk_loaded', false)
       }
     }
   })
 
+  let previousNode = null
+
+  let lastOnGroundPos = null
+
   function monitorMovement () {
+    if (bot.entity.onGround) lastOnGroundPos = bot.entity.position.clone()
     // Test freemotion
     if (stateMovements && stateMovements.allowFreeMotion && stateGoal && stateGoal.entity) {
       const target = stateGoal.entity
@@ -478,6 +486,7 @@ function inject (bot) {
 
     let nextPoint = path[0]
     const p = bot.entity.position
+    const lp = lastOnGroundPos
 
     // Handle digging
     if (digging || nextPoint.toBreak.length > 0) {
@@ -576,13 +585,25 @@ function inject (bot) {
     let dx = nextPoint.x - p.x
     const dy = nextPoint.y - p.y
     let dz = nextPoint.z - p.z
-    if (Math.abs(dx) <= 0.35 && Math.abs(dz) <= 0.35 && Math.abs(dy) < 1) {
+    const yChangeFromGround = lp ? p.y - lp.y : 0
+
+    /* eslint-disable multiline-ternary */
+    // const direction = previousNode ? {
+    //   x: previousNode.x - nextPoint.x,
+    //   y: previousNode.y - nextPoint.y,
+    //   z: previousNode.z - nextPoint.z
+    // } : null
+
+    // console.log(direction)
+
+    if (Math.abs(dx) <= (yChangeFromGround > 3 ? 1.25 : 0.5) && Math.abs(dz) <= (yChangeFromGround > 3 ? 1.25 : 0.5) && Math.abs(dy) < 12) {
       // arrived at next point
       lastNodeTime = performance.now()
       if (stopPathing) {
         stop()
         return
       }
+      previousNode = nextPoint
       path.shift()
       if (path.length === 0) { // done
         // If the block the bot is standing on is not a full block only checking for the floored position can fail as
@@ -627,7 +648,7 @@ function inject (bot) {
       bot.setControlState('jump', true)
       bot.setControlState('sprint', false)
     } else {
-      console.log("STOPPING???")
+      console.log('STOPPING???')
       bot.setControlState('forward', false)
       bot.setControlState('sprint', false)
     }
