@@ -160,6 +160,7 @@ function inject (bot) {
   }
 
   bot.pathfinder.stop = () => {
+    if (!bot.pathfinder.goal) return
     stopPathing = true
   }
 
@@ -335,13 +336,13 @@ function inject (bot) {
     // bot.entity.velocity.x = 0
     // bot.entity.velocity.z = 0
 
-    const blockX = Math.floor(bot.entity.position.x) + 0.5
-    const blockZ = Math.floor(bot.entity.position.z) + 0.5
+    // const blockX = Math.floor(bot.entity.position.x) + 0.5
+    // const blockZ = Math.floor(bot.entity.position.z) + 0.5
 
     // Make sure our bounding box don't collide with neighboring blocks
     // otherwise recenter the position
-    if (Math.abs(bot.entity.position.x - blockX) > 0.2) { bot.entity.position.x = blockX }
-    if (Math.abs(bot.entity.position.z - blockZ) > 0.2) { bot.entity.position.z = blockZ }
+    // if (Math.abs(bot.entity.position.x - blockX) > 0.2) { bot.entity.position.x = blockX }
+    // if (Math.abs(bot.entity.position.z - blockZ) > 0.2) { bot.entity.position.z = blockZ }
   }
 
   function moveToEdge (refBlock, edge) {
@@ -399,7 +400,7 @@ function inject (bot) {
 
   bot.on('blockUpdate', (oldBlock, newBlock) => {
     if (!oldBlock || !newBlock) return
-    if (isPositionNearPath(oldBlock.position, path) && oldBlock.type !== newBlock.type) {
+    if (oldBlock.type !== newBlock.type && isPositionNearPath(oldBlock.position, path)) {
       resetPath('block_updated', false)
     }
   })
