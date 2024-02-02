@@ -594,7 +594,7 @@ function inject (bot) {
 
     // console.log(direction)
 
-    if (Math.abs(dx) <= (yChangeFromGround > 3 ? 1.25 : 0.5) && Math.abs(dz) <= (yChangeFromGround > 3 ? 1.25 : 0.5) && Math.abs(dy) < 12) {
+    if (Math.abs(dx) <= (yChangeFromGround >= 1.5 ? 1.25 : 0.5) && Math.abs(dz) <= (yChangeFromGround > 1.5 ? 1.25 : 0.5) && Math.abs(dy) < 12) {
       // arrived at next point
       lastNodeTime = performance.now()
       if (stopPathing) {
