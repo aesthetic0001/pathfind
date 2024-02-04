@@ -594,7 +594,7 @@ function inject (bot) {
 
     // console.log(direction)
 
-    if (Math.abs(dx) <= (!path[1] ? 0.25 : (yChangeFromGround >= 1.5 ? Math.max(2, yChangeFromGround / 3.5) : 0.4)) && Math.abs(dz) <= (!path[1] ? 0.25 : (yChangeFromGround > 1.5 ? Math.max(2, yChangeFromGround / 3.5) : 0.4)) && Math.abs(dy) < 12) {
+    if (Math.abs(dx) <= (!path[1] ? 0.25 : (yChangeFromGround >= 1.5 ? Math.max(2, yChangeFromGround / 3) : 0.5)) && Math.abs(dz) <= (!path[1] ? 0.25 : (yChangeFromGround > 1.5 ? Math.max(2, yChangeFromGround / 3) : 0.5)) && Math.abs(dy) < 12) {
       // arrived at next point
       lastNodeTime = performance.now()
       if (stopPathing) {
@@ -624,7 +624,7 @@ function inject (bot) {
 
     // console.log(`Treating as regular goal node: ${nextPoint.x}, ${nextPoint.y}, ${nextPoint.z}`)
 
-    bot.look(Math.atan2(-dx, -dz), Math.random() > 0.5 ? -Math.random() * (Math.PI / 20) : Math.random() * (Math.PI / 20))
+    bot.look(Math.atan2(-dx, -dz), Math.random() > 0.5 ? -Math.random() * (Math.PI / 24) : Math.random() * (Math.PI / 24))
 
     bot.setControlState('forward', true)
     bot.setControlState('jump', false)
