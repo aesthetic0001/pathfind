@@ -624,7 +624,7 @@ function inject (bot) {
 
     // console.log(`Treating as regular goal node: ${nextPoint.x}, ${nextPoint.y}, ${nextPoint.z}`)
 
-    bot.look(Math.atan2(-dx, -dz), Math.random() > 0.5 ? -Math.random() * (Math.PI / 24) : Math.random() * (Math.PI / 24), true)
+    bot.look(Math.atan2(-dx, -dz), Math.random() > 0.5 ? -Math.random() * (Math.PI / 24) : Math.random() * (Math.PI / 24), false)
 
     bot.setControlState('forward', true)
     bot.setControlState('jump', false)
