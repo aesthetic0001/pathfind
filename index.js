@@ -583,6 +583,7 @@ function inject (bot) {
     let dx = nextPoint.x - p.x
     const dy = nextPoint.y - p.y
     let dz = nextPoint.z - p.z
+    const yChangeFromGround = lp ? p.y - lp.y : 0
 
     /* eslint-disable multiline-ternary */
     // const direction = previousNode ? {
@@ -593,7 +594,7 @@ function inject (bot) {
 
     // console.log(direction)
 
-    if (Math.abs(dx) <= (!bot.entity.onGround ? 1.25 : 0.5) && Math.abs(dz) <= (!bot.entity.onGround ? 1.25 : 0.5) && Math.abs(dy) < 12) {
+    if (Math.abs(dx) <= (yChangeFromGround >= 1.5 ? Math.max(2, yChangeFromGround / 2) : 0.5) && Math.abs(dz) <= (yChangeFromGround > 1.5 ? Math.max(2, yChangeFromGround / 2) : 0.5) && Math.abs(dy) < 12) {
       // arrived at next point
       lastNodeTime = performance.now()
       if (stopPathing) {
