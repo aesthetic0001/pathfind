@@ -48,7 +48,7 @@ bot.once('spawn', () => {
           range: 4
         }))
         await bot.equip(itemsInInventory[0], 'hand')
-        await bot.lookAt(rayBlock.position.offset(face.x * 0.5 + 0.5, face.y * 0.5 + 0.5, face.z * 0.5 + 0.5))
+        await bot.lookAt(rayBlock.position.offset(face.x * 0.5 + 0.5, face.y * 0.5 + 0.5, face.z * 0.5 + 0.5), true)
         await bot.placeBlock(rayBlock, face)
       } catch (e) {
         console.error(e)
