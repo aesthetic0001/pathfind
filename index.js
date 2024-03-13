@@ -368,7 +368,7 @@ function inject (bot) {
     const viewVector = getViewVector(targetPitch, targetYaw)
     // While the bot is not in the right position rotate the view and press back while crouching
     if (bot.entity.position.distanceTo(refBlock.clone().offset(edge.x + 0.5, 1, edge.z + 0.5)) > 0.4) {
-      bot.lookAt(bot.entity.position.offset(viewVector.x, viewVector.y, viewVector.z), true)
+      bot.lookAt(bot.entity.position.offset(viewVector.x, viewVector.y, viewVector.z), false)
       bot.setControlState('sneak', true)
       bot.setControlState('back', true)
       return false
@@ -382,8 +382,8 @@ function inject (bot) {
     const minDistanceSq = 0.2 * 0.2
     const targetPos = pos.clone().offset(0.5, 0, 0.5)
     if (bot.entity.position.distanceSquared(targetPos) > minDistanceSq) {
-      bot.lookAt(targetPos, true)
-      bot.setControlState('forward', true)
+      bot.lookAt(targetPos, false)
+      bot.setControlState('forward', false)
       return false
     }
     bot.setControlState('forward', false)
@@ -427,7 +427,7 @@ function inject (bot) {
     if (stateMovements && stateMovements.allowFreeMotion && stateGoal && stateGoal.entity) {
       const target = stateGoal.entity
       if (physics.canStraightLine([target.position])) {
-        bot.lookAt(target.position.offset(0, 1.6, 0), true)
+        bot.lookAt(target.position.offset(0, 1.6, 0), false)
 
         if (target.position.distanceSquared(bot.entity.position) > stateGoal.rangeSq) {
           bot.setControlState('forward', true)
@@ -624,7 +624,7 @@ function inject (bot) {
 
     // console.log(`Treating as regular goal node: ${nextPoint.x}, ${nextPoint.y}, ${nextPoint.z}`)
 
-    bot.look(Math.atan2(-dx, -dz), Math.random() > 0.5 ? -Math.random() * (Math.PI / 24) : Math.random() * (Math.PI / 24), true)
+    bot.look(Math.atan2(-dx, -dz), Math.random() > 0.5 ? -Math.random() * (Math.PI / 30) : Math.random() * (Math.PI / 30), false)
 
     bot.setControlState('forward', true)
     bot.setControlState('jump', false)
